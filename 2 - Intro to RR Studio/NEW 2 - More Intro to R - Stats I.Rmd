@@ -1,0 +1,1176 @@
+---
+title: "Statistics for CSAI I - Tutorial 2 - More Intro to R"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+
+tutorial_options(exercise.eval = FALSE, exercise.checker=FALSE)
+```
+## Missing Values {data-progressive=TRUE}
+<font size="1"> Adapted from the SWIRL lessons "R Programming E": https://github.com/swirldev/R_Programming_E </font>
+
+#### In this lesson, you'll learn how to find missing values in R and you will learn about the different types of missing values.
+
+Missing values play an important role in statistics and data analysis. Often, missing values must not be ignored, but rather they should be carefully studied to see if there's an underlying pattern or cause for their missingness.
+
+In R, NA is used to represent any value that is 'not available' or 'missing' (in the statistical sense). In this lesson, we'll explore missing values further.
+
+Any operation involving NA generally yields NA as the result. To illustrate, let's **create a vector c(44, NA, 5, NA) and assign it to a variable `x`.**
+```{r ex1_1, exercise=TRUE}
+#Write your code here
+```
+```{r ex1_1-hint}
+#Assign the vector c(44, NA, 5, NA) to a variable x. The NA must uppercase.
+```
+```{r ex1_1-check}
+#Store variables globally
+```
+### 
+
+**Now, let's multiply x by 3.**
+```{r ex1_2, exercise=TRUE}
+#Write your code here
+```
+```{r ex1_2-hint}
+#Try x * 3.
+```
+```{r ex1_2-check}
+#Store variables globally
+```
+### 
+Notice that the elements of the resulting vector that correspond with the NA values in `x` are also NA.
+To make things a little more interesting, lets **create a vector `y` containing 1000 draws from a standard normal distribution with `y <- rnorm(1000)`.**
+```{r ex1_3, exercise=TRUE}
+#Write your code here
+```
+```{r ex1_3-hint}
+#The function rnorm() generates random numbers from a normal distribution. Type y <- rnorm(1000).
+```
+```{r ex1_3-check}
+#Store variables globally
+```
+### 
+**Next, let's create a vector `z` containing 1000 NAs with `z <- rep(NA, 1000)`.**
+```{r ex1_4, exercise=TRUE}
+#Write your code here
+```
+```{r ex1_4-hint}
+#Type z <- rep(NA, 1000) to generate a vector of 1000 NAs.
+```
+```{r ex1_4-check}
+#Store variables globally
+```
+### 
+Finally, let's **select 100 elements at random from these 2000 values** (combining `y` and `z`) such that we don't know how many NAs we'll wind up with or what positions they'll occupy in our final vector `my_data` -- `my_data <- sample(c(y, z), 100)`.
+```{r ex1_5, exercise=TRUE}
+#Write your code here
+```
+```{r ex1_5-hint}
+#The sample() function draws a random sample from the data provided as its first argument 
+#(in this case c(y, z)) of the size specified by the second argument (100). 
+#The command my_data <- sample(c(y, z), 100) will give us what we want.
+```
+```{r ex1_5-check}
+#Store variables globally
+```
+### 
+Let's first ask the question of where our NAs are located in our data. The `is.na()` function tells us whether each element of a vector is NA. **Call is.na() on my_data and assign the result to my_na.**
+```{r ex1_6, exercise=TRUE}
+#Write your code here
+```
+```{r ex1_6-hint}
+#Assign the result of is.na(my_data) to the variable my_na.
+```
+```{r ex1_6-check}
+#Store variables globally
+```
+### 
+**Now, print `my_na` to see what you came up with.**
+```{r ex1_7, exercise=TRUE}
+#Write your code here
+```
+```{r ex1_7-hint}
+#Type my_na to view its contents.
+```
+```{r ex1_7-check} 
+#Store variables globally
+```
+### 
+Everywhere you see a TRUE, you know the corresponding element of `my_data` is NA. Likewise, everywhere you see a FALSE, you know the corresponding element of `my_data` is one of our random draws from the standard normal distribution.
+
+In a previous lesson on logical operators, we introduced the `==` operator as a method of testing for equality between two objects. So, you might think the expression `my_data` == NA yields the same results as `is.na()`. **Give it a try.**
+```{r ex1_8, exercise=TRUE}
+#Write your code here
+```
+```{r ex1_8-hint}
+#Try my_data == NA to see what happens.
+```
+```{r ex1_8-check} 
+#Store variables globally
+```
+### 
+The reason you got a vector of all NAs is that NA is not really a value, but just a placeholder for a quantity that is not available. Therefore the logical expression is incomplete and R has no choice but to return a vector of the same length as my_data that contains all NAs.
+Don't worry if that's a little confusing. The key takeaway is to be cautious when using logical expressions anytime NAs might creep in, since a single NA value can derail the entire thing.
+So, back to the task at hand. Now that we have a vector, `my_na`, that has a TRUE for every NA and FALSE for every numeric value, we can compute the total number of NAs in our data.
+The trick is to recognize that underneath the surface, R represents TRUE as the number 1 and FALSE as the number 0. Therefore, if we take the sum of a bunch of TRUEs and FALSEs, we get the total number of TRUEs.
+
+Let's give that a try here. **Call the `sum()` function on `my_na` to count the total number of TRUEs in `my_na`, and thus the total number of NAs in `my_data`.** Don't assign the result to a new variable.
+```{r ex1_9, exercise=TRUE}
+#Write your code here
+```
+```{r ex1_9-hint}
+#Use sum(my_na) to count the number NAs in the data.
+```
+```{r ex1_9-check} 
+#Store variables globally
+```
+###
+Pretty cool, huh? Finally, let's take a look at the data to convince ourselves that everything 'adds up'. **Print my_data to the console.**
+```{r ex1_10, exercise=TRUE}
+#Write your code here
+```
+```{r ex1_10-hint}
+#Print my_data to the console.
+```
+```{r ex1_10-check} 
+#Store variables globally
+```
+### 
+Now that we've got NAs down pat, let's look at a second type of missing value -- NaN, which stands for 'not a number'. To generate NaN, **try dividing (using a forward slash) 0 by 0 now.**
+```{r ex1_11, exercise=TRUE}
+#Write your code here
+```
+```{r ex1_11-hint}
+#Try 0/0.
+```
+```{r ex1_11-check} 
+#Store variables globally
+```
+### 
+Let's do one more, just for fun. In R, Inf stands for infinity. **What happens if you subtract Inf from Inf?**
+```{r ex1_12, exercise=TRUE}
+#Write your code here
+```
+```{r ex1_12-hint}
+#Type Inf - Inf. Can you guess the result?
+```
+```{r ex1_12-check} 
+#Store variables globally
+```
+
+## Subsetting Vectors {data-progressive=TRUE}
+<font size="1"> Adapted from the SWIRL lessons "R Programming E": https://github.com/swirldev/R_Programming_E </font>
+
+#### In this lesson, we'll see how to extract elements from a vector based on some conditions that we specify.
+For example, we may only be interested in the first 20 elements of a vector, or only the elements that are not NA, or only those that are positive or correspond to a specific variable of interest. By the end of this lesson, you'll know how to handle each of these scenarios.
+
+The following code snippet creates a vector called `x` that contains a random ordering of 20 numbers (from a standard normal distribution) and 20 NAs. **Type `x` now to see what it looks like.**
+```{r ex2_1, exercise=TRUE}
+x <- sample(c(rnorm(20), rep(NA, 20)))
+#Write your own code below
+```
+```{r ex2_1-hint}
+#Type x to view its contents.
+#Make sure not to remove the first line that was already given:
+#x <- sample(c(rnorm(20), rep(NA, 20)))
+```
+```{r ex2_1-check} 
+#Store variables globally
+```
+### 
+The way you tell R that you want to select some particular elements (i.e. a 'subset') from a vector is by placing an 'index vector' in square brackets immediately following the name of the vector.
+
+For a simple example, **try `x[1:10]` to view the first ten elements of `x`.**
+```{r ex2_2, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_2-hint}
+#View the first ten elements of x with x[1:10].
+```
+```{r ex2_2-check} 
+#Store variables globally
+```
+### 
+Index vectors come in four different flavors: logical vectors, vectors of positive integers, vectors of negative integers, and vectors of character strings. Each of these we'll cover in this lesson.
+Let's start by indexing with logical vectors. One common scenario when working with real-world data is that we want to extract all elements of a vector that are not NA (i.e. missing data). Recall that `is.na(x)` yields a vector of logical values the same length as `x`, with TRUEs corresponding to NA values in `x` and FALSEs corresponding to non-NA values in `x`.
+```{r quiz2_1}
+question("What do you think x[is.na(x)] will give you?",
+  answer("A vector of all NAs", correct = TRUE),
+  answer("A vector with no NAs"),
+  answer("A vector of TRUEs and FALSEs"),
+  answer("A vector of length 0"),
+  answer("Hint!"),
+  allow_retry = TRUE,
+  incorrect = "Hint: Remember that is.na(x) tells us where the NAs are in a vector. So if we subset x based on that, what do you expect to happen?"
+)
+```
+
+###
+
+**Prove it to yourself by typing `x[is.na(x)]`.**
+```{r ex2_3, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_3-hint}
+#Type x[is.na(x)] to see that you get all NAs, which is clearly not what we want!
+```
+```{r ex2_3-check} 
+#Store variables globally
+```
+### 
+Recall that `!` gives us the negation of a logical expression, so `!is.na(x)` can be read as 'is not NA'. Therefore, if we want to create a vector called `y` that contains all of the non-NA values from `x`, we can use `y <- x[!is.na(x)]`. Give it a try.
+```{r ex2_4, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_4-hint}
+#Type y <- x[!is.na(x)] to capture all non-missing values from x.
+```
+```{r ex2_4-check}
+#Store variables globally
+```
+### 
+**Print y to the console.**
+```{r ex2_5, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_5-hint}
+#Type y to view its contents.
+```
+```{r ex2_5-check}
+#Store variables globally
+```
+### 
+
+
+Now that we've isolated the non-missing values of `x` and put them in `y`, we can subset y as we please.
+Recall that the expression `y > 0` will give us a vector of logical values the same length as `y`, with TRUEs corresponding to values of `y` that are greater than zero and FALSEs corresponding to values of `y` that are less than or equal to zero. 
+```{r quiz2_2}
+question("What do you think `y[y > 0]` will give you?",
+  answer("A vector of all the positive elements of y", correct = TRUE),
+  answer("A vector of all the negative elements of y"),
+  answer("A vector of all NAs"),
+  answer("A vector of length 0"),
+  answer("A vector of TRUEs and FALSEs"),
+  answer("Hint!"),
+  allow_retry = TRUE,
+  incorrect = "The logical expression y > 0 will give us TRUE for each element of y that is positive. Based on that, what do you think y[y > 0] will return?"
+)
+```
+###
+**Type `y[y > 0]` to see that we get all of the positive elements of `y`, which are also the positive elements of our original vector `x`.**
+```{r ex2_6, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_6-hint}
+#Type y[y > 0] to view only the positive elements of y.
+```
+```{r ex2_6-check}
+#Store variables globally
+```
+### 
+You might wonder why we didn't just start with `x[x > 0]` to isolate the positive elements of `x`. **Try that now to see why.**
+```{r ex2_7, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_7-hint}
+#Try x[x > 0] to see why we didn't use this approach.
+```
+```{r ex2_7-check}
+#Store variables globally
+```
+### 
+Since NA is not a value, but rather a placeholder for an unknown quantity, the expression `NA > 0` evaluates to NA. Hence we get a bunch of NAs mixed in with our positive numbers when we do this.
+
+Combining our knowledge of logical operators with our new knowledge of subsetting, we could do this: `x[!is.na(x) & x > 0]`. **Try it out.**
+```{r ex2_8, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_8-hint}
+#Try x[!is.na(x) & x > 0] to see what you get.
+```
+```{r ex2_8-check}
+#Store variables globally
+```
+### 
+In this case, we request only values of x that are both non-missing AND greater than zero.
+
+I've already shown you how to subset just the first ten values of `x` using `x[1:10]`. In this case, we're providing a vector of positive integers inside of the square brackets, which tells R to return only the elements of `x` numbered 1 through 10.
+
+Many programming languages use what's called 'zero-based indexing', which means that the first element of a vector is considered element 0. R uses 'one-based indexing', which (you guessed it!) means the first element of a vector is considered element 1.
+
+**Can you figure out how we'd subset the 3rd, 5th, and 7th elements of `x`?** 
+*Hint -- Use the `c()` function to specify the element numbers as a numeric vector.*
+```{r ex2_9, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_9-hint}
+#Create a vector of indexes with c(3, 5, 7), then put that inside of the square brackets.
+```
+```{r ex2_9-check}
+#Store variables globally
+```
+### 
+It's important that when using integer vectors to subset our vector `x`, we stick with the set of indexes {1, 2, ..., 40} since x only has 40 elements. What happens if we ask for the zeroth element of `x` (i.e. `x[0]`)? **Give it a try.**
+```{r ex2_10, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_10-hint}
+#Try x[0] to see what happens when we refer to the zeroth element of a vector, which is not defined in R.
+```
+```{r ex2_10-check}
+#Store variables globally
+```
+### 
+As you might expect, we get nothing useful. Unfortunately, R doesn't prevent us from doing this. What if we ask for the 3000th element of `x`? **Try it out.**
+```{r ex2_11, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_11-hint}
+#Request the 3000th element of x (which does not exist) with x[3000].
+```
+```{r ex2_11-check}
+#Store variables globally
+```
+### 
+Again, nothing useful, but R doesn't prevent us from asking for it. This should be a cautionary tale. You should always make sure that what you are asking for is within the bounds of the vector you're working with.
+What if we're interested in all elements of `x` EXCEPT the 2nd and 10th? It would be pretty tedious to construct a vector containing all numbers 1 through 40 EXCEPT 2 and 10.
+Luckily, R accepts negative integer indexes. Whereas `x[c(2, 10)]` gives us ONLY the 2nd and 10th elements of `x`, `x[c(-2, -10)]` gives us all elements of `x` EXCEPT for the 2nd and 10 elements. **Try `x[c(-2, -10)]` now to see this.**
+```{r ex2_12, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_12-hint}
+#Give x[c(-2, -10)] a try.
+```
+```{r ex2_12-check}
+#Store variables globally
+```
+### 
+A shorthand way of specifying multiple negative numbers is to put the negative sign out in front of the vector of positive numbers. **Type `x[-c(2, 10)]` to get the exact same result.**
+```{r ex2_13, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_13-hint}
+#Use x[-c(2, 10)] to simply things a bit. This could be a time saver if specifying many negative indexes.
+```
+```{r ex2_13-check}
+#Store variables globally
+```
+### 
+So far, we've covered three types of index vectors: logical, positive integer, and negative integer. The only remaining type requires us to introduce the concept of 'named' elements.
+
+**Create a numeric vector with three named elements using `vect <- c(foo = 11, bar = 2, norf = NA)`.**
+```{r ex2_14, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_14-hint}
+#Create a named vector with 
+vect <- c(foo = 11, bar = 2, norf = NA).
+```
+```{r ex2_14-check}
+#Store variables globally
+```
+### 
+When we print `vect` to the console, you'll see that each element has a name. **Try it out.**
+```{r ex2_15, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_15-hint}
+#Type vect to view its contents.
+vect
+```
+```{r ex2_15-check}
+#Store variables globally
+```
+### 
+We can also get the names of `vect` by passing `vect` as an argument to the `names()` function. **Give that a try.**
+```{r ex2_16, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_16-hint}
+#Check out the results of names(vect).
+names(vect)
+```
+```{r ex2_16-check}
+#Store variables globally
+```
+### 
+Alternatively, we can create an unnamed vector `vect2` with `c(11, 2, NA)`. **Do that now.**
+```{r ex2_17, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_17-hint}
+#Create an ordinary (unnamed) vector called vect2 that contains c(11, 2, NA).
+vect2 <- c(11, 2, NA)
+```
+```{r ex2_17-check}
+#Store variables globally
+```
+### 
+Then, we can add the `names` attribute to `vect2` after the fact with `names(vect2) <- c("foo", "bar", "norf")`. **Go ahead.**
+```{r ex2_18, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_18-hint}
+#Add names to vect2 with names(vect2) <- c("foo", "bar", "norf").
+names(vect2) <- c("foo", "bar", "norf")
+```
+```{r ex2_18-check}
+#Store variables globally
+```
+### 
+**Now, let's check that `vect` and `vect2` are the same by passing them as arguments to the `identical()` function.**
+```{r ex2_19, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_19-hint}
+#The identical() function tells us if its first two arguments identical.
+```
+```{r ex2_19-check}
+#Store variables globally
+```
+### 
+Indeed, `vect` and `vect2` are identical named vectors.
+
+Now, back to the matter of subsetting a vector by named elements. 
+```{r quiz2_3}
+question("Which of the following commands do you think would give us the second element of vect?",
+  answer('vect["bar"]', correct = TRUE),
+  answer('vect[bar]'),
+  answer('vect["2"]'),
+  answer("Hint!"),
+  incorrect = 'If we want the element named "bar" (i.e. the second element of vect), which command would get us that?',
+  allow_retry = TRUE
+)
+```
+### 
+**Now, try it out.**
+```{r ex2_20, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_20-hint}
+#Try vect["bar"]
+```
+```{r ex2_20-check}
+#Store variables globally
+```
+### 
+Likewise, we can specify a vector of names with `vect[c("foo", "bar")]`. **Try it out.**
+```{r ex2_21, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_21-hint}
+#Use vect[c("foo", "bar")] to get only the elements of vect named "foo" and "bar".
+vect[c("foo", "bar")]
+```
+```{r ex2_21-check}
+#Store variables globally
+```
+### 
+Now you know all four methods of subsetting data from vectors. Different approaches are best in different scenarios and when in doubt, try it out!
+
+## Matrices and Data Frames {data-progressive=TRUE}
+<font size="1"> Adapted from the SWIRL lessons "R Programming E": https://github.com/swirldev/R_Programming_E </font>
+
+In this lesson, we'll cover matrices and data frames. Both represent 'rectangular' data types, meaning that they are used to store tabular data, with rows and columns.
+The main difference, as you'll see, is that matrices can only contain a single class of data, while data frames can consist of many different classes of data.
+
+**Let's create a vector containing the numbers 1 through 20 using the `:` operator. Store the result in a variable called `my_vector`.**
+```{r ex3_1, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_1-hint}
+#You learned about the `:` operator in the "Sequence of Numbers" lesson. 
+#If you wanted to create a vector containing the numbers 1, 2, and 3 (in that order), 
+#you could use either `c(1, 2, 3)` or `1:3`. 
+#In this case, we want the numbers 1 through 20 stored in a variable called my_vector. 
+#Also, remember that you don't need the c() function when using `:`.
+```
+```{r ex3_1-check}
+#Store variables globally
+```
+### 
+**View the contents of the vector you just created.**
+```{r ex3_2, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_2-hint}
+#Type my_vector to view its contents.
+```
+```{r ex3_2-check}
+#Store variables globally
+```
+### 
+The `dim()` function tells us the 'dimensions' of an object. What happens if we do `dim(my_vector)`? **Give it a try.**
+```{r ex3_3, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_3-hint}
+#Just type dim(my_vector) to see what happens.
+```
+```{r ex3_3-check}
+#Store variables globally
+```
+### 
+Clearly, that's not very helpful! Since `my_vector` is a vector, it doesn't have a `dim` attribute (so it's just NULL), but we can find its length using the `length()` function. **Try that now.**
+```{r ex3_4, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_4-hint}
+#Type length(my_vector) to view the length of the vector you just created.
+```
+```{r ex3_4-check}
+#Store variables globally
+```
+### 
+Ah! That's what we wanted. But, what happens if we give `my_vector` a `dim` attribute? Let's give it a try. **Type `dim(my_vector) <- c(4, 5)`.**
+```{r ex3_5, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_5-hint}
+#Type dim(my_vector) <- c(4, 5) to give my_vector a dim attribute.
+```
+```{r ex3_5-check}
+#Store variables globally
+```
+### 
+It's okay if that last command seemed a little strange to you. It should! The `dim()` function allows you to get OR set the `dim` attribute for an R object. In this case, we assigned the value `c(4, 5)` to the `dim` attribute of `my_vector`.
+
+Use `dim(my_vector)` to confirm that we've set the `dim` attribute correctly.
+```{r ex3_6, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_6-hint}
+#Just type dim(my_vector) to make sure the `dim` attribute has been set.
+```
+```{r ex3_6-check}
+#Store variables globally
+```
+### 
+Another way to see this is by calling the `attributes()` function on `my_vector`. **Try it now.**
+```{r ex3_7, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_7-hint}
+#The command `attributes(my_vector)` will show you all of the attributes for the my_vector object.
+```
+```{r ex3_7-check}
+#Store variables globally
+```
+### 
+Just like in math class, when dealing with a 2-dimensional object (think rectangular table), the first number is the number of rows and the second is the number of columns. Therefore, we just gave `my_vector` 4 rows and 5 columns.
+
+But, wait! That doesn't sound like a vector any more. Well, it's not. Now it's a matrix. **View the contents of `my_vector` now to see what it looks like.**
+```{r ex3_8, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_8-hint}
+#Type my_vector to view its contents.
+```
+```{r ex3_8-check}
+#Store variables globally
+```
+### 
+Now, let's confirm it's actually a matrix by using the `class()` function. **Type `class(my_vector)` to see what I mean.**
+```{r ex3_9, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_9-hint}
+#Type class(my_vector) to view the class of my_vector.
+```
+```{r ex3_9-check}
+#Store variables globally
+```
+### 
+Sure enough, `my_vector` is now a matrix. We should store it in a new variable that helps us remember what it is. Store the value of `my_vector` in a new variable called `my_matrix`.
+```{r ex3_10, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_10-hint}
+#Since we can't just change the name of our my_vector variable, 
+#we'll assign its value to a new variable with my_matrix <- my_vector.
+```
+```{r ex3_10-check}
+#Store variables globally
+```
+### 
+The example that we've used so far was meant to illustrate the point that a matrix is simply an atomic vector with a dimension attribute. A more direct method of creating the same matrix uses the `matrix()` function.
+
+**Bring up the help file for the matrix() function now using the `?` function.**
+```{r ex3_11, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_11-hint}
+#The command ?matrix will do the trick.
+```
+```{r ex3_11-check}
+#Store variables globally
+```
+### 
+Now, look at the documentation for the matrix function and see if you can figure out how to create a matrix containing the same numbers (1-20) and dimensions (4 rows, 5 columns) by calling the `matrix()` function. **Store the result in a variable called `my_matrix2`.**
+```{r ex3_12, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_12-hint}
+#Call the matrix() function with three arguments
+# The values to be used in the matrix: 1:20 
+# The number of rows: 4
+# The number of columns: 5. 
+#Be sure to specify arguments by their proper names and store the result in my_matrix2 (not in my_matrix).
+```
+```{r ex3_12-check}
+#Store variables globally
+```
+### 
+Finally, let's confirm that `my_matrix` and `my_matrix2` are actually identical. The `identical()` function will tell us if its first two arguments are the same. Try it out.
+```{r ex3_13, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_13-hint}
+#If you're not sure about this one, then checkout the documentation for identical() using the `?` function.
+```
+```{r ex3_13-check}
+#Store variables globally
+```
+### 
+Now, imagine that the numbers in our table represent some measurements from a clinical experiment, where each row represents one patient and each column represents one variable for which measurements were taken.
+We may want to label the rows, so that we know which numbers belong to each patient in the experiment. One way to do this is to add a column to the matrix, which contains the names of all four people.
+
+Let's start by creating a character vector containing the names of our patients: Bill, Gina, Kelly, and Sean. Remember that double quotes tell R that something is a character string. **Store the result in a variable called patients.**
+```{r ex3_14, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_14-hint}
+#Make sure to capitalize the first letter of each name and to store the result in a variable called patients. 
+#Also, don't get the order of the patients mixed up! That would be a disaster!
+```
+```{r ex3_14-check}
+#Store variables globally
+```
+### 
+Now we'll use the `cbind()` function to 'combine columns'. Don't worry about storing the result in a new variable. **Just call `cbind()` with two arguments: the patients vector and `my_matrix`.**
+```{r ex3_15, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_15-hint}
+#Type cbind(patients, my_matrix) to add the names of our patients to the matrix of numbers.
+```
+```{r ex3_15-check}
+#Store variables globally
+```
+### 
+Something is fishy about our result! It appears that combining the character vector with our matrix of numbers caused everything to be enclosed in double quotes. This means we're left with a matrix of character strings, which is no good.
+If you remember back to the beginning of this lesson, I told you that matrices can only contain ONE class of data. Therefore, when we tried to combine a character vector with a numeric matrix, R was forced to 'coerce' the numbers to characters, hence the double quotes.
+This is called 'implicit coercion', because we didn't ask for it. It just happened. But why didn't R just convert the names of our patients to numbers? I'll let you ponder that question on your own.
+
+So, we're still left with the question of how to include the names of our patients in the table without destroying the integrity of our numeric data. **Try the following: `my_data <- data.frame(patients, my_matrix)`**
+```{r ex3_16, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_16-hint}
+#Type my_data <- data.frame(patients, my_matrix), so we can explore what happens.
+```
+```{r ex3_16-check}
+#Store variables globally
+```
+### 
+**Now view the contents of my_data to see what we've come up with.**
+```{r ex3_17, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_17-hint}
+#Type my_data to view its contents.
+```
+```{r ex3_17-check}
+#Store variables globally
+```
+### 
+It looks like the `data.frame()` function allowed us to store our character vector of names right alongside our matrix of numbers. That's exactly what we were hoping for! Behind the scenes, the `data.frame()` function takes any number of arguments and returns a single object of class `data.frame` that is composed of the original objects.
+**Let's confirm this by calling the `class()` function on our newly created data frame.**
+```{r ex3_18, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_18-hint}
+#The class function takes one argument: the object of which you want to determine the class.
+```
+```{r ex3_18-check}
+#Store variables globally
+```
+### 
+It's also possible to assign names to the individual rows and columns of a data frame, which presents another possible way of determining which row of values in our table belongs to each patient.
+However, since we've already solved that problem, let's solve a different problem by assigning names to the columns of our data frame so that we know what type of measurement each column represents.
+Since we have six columns (including patient names), we'll need to first create a vector containing one element for each column. **Create a character vector called `cnames` that contains the following values (in order): "patient", "age", "weight", "bp", "rating", "test".**
+```{r ex3_19, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_19-hint}
+#Make sure all of the names are lowercase, surrounded by double quotes, and separated with commas. 
+#Don't forget to use the c() function.
+```
+```{r ex3_19-check}
+#Store variables globally
+```
+### 
+**Now, use the `colnames()` function to set the `colnames` attribute for our data frame.** *This is similar to the way we used the `dim()` function earlier in this lesson.*
+```{r ex3_20, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_20-hint}
+#Try colnames(my_data) <- cnames.
+```
+```{r ex3_20-check}
+#Store variables globally
+```
+### 
+Let's see if that got the job done. **Print the contents of my_data.**
+```{r ex3_21, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_21-hint}
+#Print the contents of my_data.
+```
+```{r ex3_21-check}
+#Store variables globally
+```
+### 
+In this lesson, you learned the basics of working with two very important and common data structures -- matrices and data frames.
+
+## Logic {data-progressive=TRUE}
+<font size="1"> Adapted from the SWIRL lessons "R Programming E": https://github.com/swirldev/R_Programming_E </font>
+
+#### This lesson is meant to be a short introduction to logical operations in R.
+There are two logical values in R, also called boolean values. They are TRUE and FALSE. 
+In R you can construct logical expressions which will evaluate to either TRUE or FALSE.
+
+Many of the questions in this lesson will involve evaluating logical expressions. Feel free to experiment with some of these expressions,it may even be useful to use the notes section of this learnR environment to experiment more with these expressions.
+
+Creating logical expressions requires logical operators. You're probably familiar with arithmetic operators like `+`, `-`, `*`, and `/`. The first logical operator we are going to discuss is the equality operator, represented by two equals signs `==`. **Use the equality operator below to find out if TRUE is equal to TRUE.**
+
+```{r ex4_1, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_1-hint}
+#Use the equality operator and type:
+TRUE == TRUE
+```
+```{r ex4_1-check}
+#Store variables globally
+```
+### 
+Just like arithmetic, logical expressions can be grouped by parenthesis so that the entire expression `(TRUE == TRUE) == TRUE` evaluates to TRUE.
+**To test out this property, try evaluating `(FALSE == TRUE) == FALSE`.**
+```{r ex4_2, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_2-hint}
+#Try typing: 
+(FALSE == TRUE) == FALSE
+```
+```{r ex4_2-check}
+#Store variables globally
+```
+### 
+The equality operator can also be used to compare numbers. **Use `==` to see if 6 is equal to 7.**
+```{r ex4_3, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_3-hint}
+#Use the equality operator and type: 
+6 == 7
+```
+```{r ex4_3-check}
+#Store variables globally
+```
+### 
+The previous expression evaluates to FALSE because 6 is less than 7. Thankfully, there are inequality operators that allow us to test if a value is less than or greater than another value.
+
+The less than operator `<` tests whether the number on the left side of the operator (called the left operand) is less than the number on the right side of the operator (called the right operand). **Write an expression to test whether 6 is less than 7.**
+```{r ex4_4, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_4-hint}
+#Use the less than operator and type: 
+6 < 7
+```
+```{r ex4_4-check}
+#Store variables globally
+```
+### 
+There is also a less-than-or-equal-to operator `<=` which tests whether the left operand is less than or equal to the right operand. **Write an expression to test whether 10 is less than or equal to 10.**
+```{r ex4_5, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_5-hint}
+#Use the `<=` operator and type:
+10 <= 10
+```
+```{r ex4_5-check}
+#Store variables globally
+```
+### 
+Keep in mind that there are the corresponding greater than `>` and greater-than-or-equal-to `>=` operators.
+```{r quiz4_1}
+question("Which of the following evaluates to FALSE?",
+  answer("9 >= 10", correct = TRUE),
+  answer("7 == 7"),
+  answer("6 < 8"),
+  answer("0 > -36"),
+  answer("Hint!"),
+  incorrect = "If you need to, you can evaluate each expression in the notes section of the learnR environment to find the correct answer.",
+  allow_retry = TRUE
+)
+```
+```{r quiz4_1-2}
+question("Which of the following evaluates to TRUE?",
+  answer("9 >= 10"),
+  answer("7 == 9"),
+  answer("57 < 8"),
+  answer("-6 > -7", correct = TRUE),
+  answer("Hint!"),
+  incorrect = "If you need to, you can evaluate each expression in the notes section of the learnR environment to find the correct answer.",
+  allow_retry = TRUE
+)
+```
+### 
+The next operator we will discuss is the 'not equals' operator represented by `!=`. Not equals tests whether two values are unequal, so TRUE != FALSE evaluates to TRUE. Like the equality operator, `!=` can also be used with numbers. **Try writing an expression to see if 5 is not equal to 7.**
+```{r ex4_6, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_6-hint}
+#Use the not equals operator and type:
+5 != 7
+```
+```{r ex4_6-check}
+#Store variables globally
+```
+### 
+In order to negate boolean expressions you can use the NOT operator. An exclamation point `!` will cause !TRUE (say: not true) to evaluate to FALSE and !FALSE (say: not false) to evaluate to TRUE. **Try using the NOT operator and the equals operator to find the opposite of whether 5 is equal to 7.**
+```{r ex4_7, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_7-hint}
+#This expression may be a little tricky, so think about negating the expression 5 == 7 
+#(all you need is an exclamation point in front)
+```
+```{r ex4_7-check}
+#Store variables globally
+```
+### 
+Let's take a moment to review. The equals operator `==` tests whether two boolean values or numbers are equal, the not equals operator `!=` tests whether two boolean values or numbers are unequal, and the NOT operator `!` negates logical expressions so that TRUE expressions become FALSE and FALSE expressions become TRUE.
+```{r quiz4_2}
+question("Which of the following evaluates to FALSE?",
+  answer("!(0 >= -1)", correct = TRUE),
+  answer("!FALSE"),
+  answer("7 != 8"),
+  answer("9 < 10"),
+  answer("Hint!"),
+  incorrect = "If you need to, you can evaluate each expression in the notes section of the learnR environment to find the correct answer.",
+  allow_retry = TRUE
+)
+```
+```{r quiz4_2-2}
+question("What do you think the following expression will evaluate to?: (TRUE != FALSE) == !(6 == 7)",
+  answer("FALSE"),
+  answer("TRUE", correct = TRUE),
+  answer("Hint!"),
+  incorrect = "Try to evaluate each expression in isolation and build up an answer.",
+  allow_retry = TRUE
+)
+```
+### 
+At some point you may need to examine relationships between multiple logical expressions. This is where the AND operator and the OR operator come in.
+Let's look at how the AND operator works. There are two AND operators in R, `&` and `&&`. Both operators work similarly, if the right and left operands of AND are both TRUE the entire expression is TRUE, otherwise it is FALSE. For example, TRUE & TRUE evaluates to TRUE. **Try typing `FALSE & FALSE` to see how it is evaluated.**
+```{r ex4_8, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_8-hint}
+#Just to illustrate how the AND operator works, type: 
+FALSE & FALSE
+```
+```{r ex4_8-check}
+#Store variables globally
+```
+### 
+You can use the `&` operator to evaluate AND across a vector. The `&&` version of AND only evaluates the first member of a vector. Let's test both for practice. **Type the expression TRUE & c(TRUE, FALSE, FALSE).**
+```{r ex4_9, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_9-hint}
+#Now to see how the AND operator works with a vector, type: 
+TRUE & c(TRUE, FALSE, FALSE)
+```
+```{r ex4_9-check}
+#Store variables globally
+```
+###
+What happens in this case is that the left operand `TRUE` is recycled across every element in the vector of the right operand. This is the equivalent statement as `c(TRUE, TRUE, TRUE) & c(TRUE, FALSE, FALSE)`.
+
+Now we'll type the same expression except we'll use the `&&` operator. **Type the expression TRUE && c(TRUE, FALSE, FALSE).**
+```{r ex4_10, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_10-hint}
+#As you'll see, the && version of AND works differently. Type: 
+TRUE && c(TRUE, FALSE, FALSE)
+```
+```{r ex4_10-check}
+#Store variables globally
+```
+###
+In this case, the left operand is only evaluated with the first member of the right operand (the vector). The rest of the elements in the vector aren't evaluated at all in this expression.
+
+The OR operator follows a similar set of rules. The `|` version of OR evaluates OR across an entire vector, while the `||` version of OR only evaluates the first member of a vector.
+
+An expression using the OR operator will evaluate to TRUE if the left operand or the right operand is TRUE. If both are TRUE, the expression will evaluate to TRUE, however if neither are TRUE, then the expression will be FALSE.
+
+Let's test out the vectorized version of the OR operator. **Type the expression `TRUE | c(TRUE, FALSE, FALSE)`.**
+```{r ex4_11, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_11-hint}
+#Test out the vectorized OR operator by typing: 
+TRUE | c(TRUE, FALSE, FALSE)
+```
+```{r ex4_11-check}
+#Store variables globally
+```
+###
+Now let's try out the non-vectorized version of the OR operator. **Type the expression `TRUE || c(TRUE, FALSE, FALSE)`.**
+```{r ex4_12, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_12-hint}
+#As you'll see the || version of OR is not vectorized. Type: 
+TRUE || c(TRUE, FALSE, FALSE)
+```
+```{r ex4_12-check}
+#Store variables globally
+```
+###
+Logical operators can be chained together just like arithmetic operators. The expressions: `6 != 10 && FALSE && 1 >= 2` or `TRUE || 5 < 9.3 || FALSE` are perfectly normal to see.
+
+As you may recall, arithmetic has an order of operations and so do logical expressions. All AND operators are evaluated before OR operators. Let's look at an example of an ambiguous case. **Type: `5 > 8 || 6 != 8 && 4 > 3.9`.**
+```{r ex4_13, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_13-hint}
+#See how the order of operations works by typing: 
+5 > 8 || 6 != 8 && 4 > 3.9
+```
+```{r ex4_13-check}
+#Store variables globally
+```
+###
+Let's walk through the order of operations in the above case. First the left and right operands of the AND operator are evaluated. 6 is not equal 8, 4 is greater than 3.9, therefore both operands are TRUE so the resulting expression `TRUE && TRUE` evaluates to TRUE. Then the left operand of the OR operator is evaluated: 5 is not greater than 8 so the entire expression is reduced to `FALSE || TRUE`. Since the right operand of this expression is TRUE the entire expression evaluates to TRUE.
+
+```{r quiz4_3}
+question("Which one of the following expressions evaluates to TRUE?",
+  answer("TRUE && 62 < 62 && 44 >= 44"),
+  answer("TRUE && FALSE || 9 >= 4 && 3 < 6", correct = TRUE),
+  answer("FALSE || TRUE && FALSE"),
+  answer("99.99 > 100 || 45 < 7.3 || 4 != 4.0"),
+  answer("Hint!"),
+  incorrect = "Try to evaluate each expression in isolation and build up an answer.",
+  allow_retry = TRUE
+)
+```
+```{r quiz4_3-2}
+question("Which one of the following expressions evaluates to FALSE?",
+  answer("FALSE || TRUE && 6 != 4 || 9 > 4"),
+  answer("!(8 > 4) ||  5 == 5.0 && 7.8 >= 7.79"),
+  answer("FALSE && 6 >= 6 || 7 >= 8 || 50 <= 49.5", correct = TRUE),
+  answer("6 >= -9 && !(6 > 7) && !(!TRUE)"),
+  answer("Hint!"),
+  incorrect = "Try to evaluate each expression in isolation and build up an answer.",
+  allow_retry = TRUE
+)
+```
+### 
+Now that you're familiar with R's logical operators you can take advantage of a few functions that R provides for dealing with logical expressions.
+The function `isTRUE()` takes one argument. If that argument evaluates to TRUE, the function will return TRUE. Otherwise, the function will return FALSE. 
+**Try using this function by typing: `isTRUE(6 > 4)`**
+```{r ex4_14, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_14-hint}
+#Test out isTRUE() by typing: 
+isTRUE(6 > 4)
+```
+```{r ex4_14-check}
+#Store variables globally
+```
+###
+```{r quiz4_4}
+question("Which of the following evaluates to TRUE",
+  answer("isTRUE(!TRUE)"),
+  answer("!isTRUE(4 < 3)", correct = TRUE),
+  answer("isTRUE(3)"),
+  answer("isTRUE(NA)"),
+  answer("!isTRUE(8 != 5)"),
+  answer("Hint!"),
+  incorrect = "isTRUE() will only return TRUE if the statement passed to it as an argument is TRUE.",
+  allow_retry = TRUE
+)
+```
+###
+The function `identical()` will return TRUE if the two R objects passed to it as arguments are identical. 
+**Try out the `identical()` function by typing: `identical('twins', 'twins')`**
+```{r ex4_15, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_15-hint}
+#If you want to see if two R objects are identical, type: 
+identical('twins', 'twins')
+```
+```{r ex4_15-check}
+#Store variables globally
+```
+###
+```{r quiz4_5}
+question("Which of the following evaluates to TRUE",
+  answer("identical(4, 3.1)"),
+  answer("identical('hello', 'Hello')"),
+  answer("!identical(7, 7)"),
+  answer("identical(5 > 4, 3 < 3.1)", correct = TRUE),
+  answer("Hint!"),
+  incorrect = "isTRUE() will only return TRUE if the statement passed to it as an argument is TRUE.",
+  allow_retry = TRUE
+)
+```
+###
+You should also be aware of the `xor()` function, which takes two arguments. The `xor()` function stands for exclusive OR. If one argument evaluates to TRUE and one argument evaluates to FALSE, then this function will return TRUE, otherwise it will return FALSE. **Try out the `xor()` function by typing: `xor(5 == 6, !FALSE)`.**
+```{r ex4_16, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_16-hint}
+#Test out the xor() function by typing: 
+xor(5 == 6, !FALSE)
+```
+```{r ex4_16-check}
+#Store variables globally
+```
+###
+`5 == 6` evaluates to FALSE, `!FALSE` evaluates to TRUE, so `xor(FALSE, TRUE)` evaluates to TRUE. On the other hand if the first argument was changed to `5 == 5` and the second argument was unchanged then both arguments would have been TRUE, so `xor(TRUE, TRUE)` would have evaluated to FALSE.
+```{r quiz4_6}
+question("Which of the following evaluates to FALSE?",
+  answer("xor(4 >= 9, 8 != 8.0)", correct = TRUE),
+  answer("xor(!isTRUE(TRUE), 6 > -1)"),
+  answer("xor(identical(xor, 'xor'), 7 == 7.0)"),
+  answer("xor(!!TRUE, !!FALSE)"),
+  answer("Hint!"),
+  incorrect = "For xor() to evaluate to TRUE, one argument must be TRUE and one must be FALSE.",
+  allow_retry = TRUE
+)
+```
+###
+For the next few questions, we're going to need to create a vector of integers called `ints`. 
+**Create this vector by typing: `ints <- sample(10)`**
+```{r ex4_17, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_17-hint}
+#To create a vector of ten integers without replacement type: 
+ints <- sample(10)
+```
+```{r ex4_17-check}
+#Store variables globally
+```
+###
+**Now simply display the contents of `ints`.**
+```{r ex4_18, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_18-hint}
+#To view the vector type: 
+ints
+```
+```{r ex4_18-check}
+#Store variables globally
+```
+###
+The vector `ints` is a random sampling of integers from 1 to 10 without replacement. Let's say we wanted to ask some logical questions about contents of `ints`. If we type `ints > 5`, we will get a logical vector corresponding to whether each element of `ints` is greater than 5. **Try typing: `ints > 5`**
+```{r ex4_19, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_19-hint}
+#To see which elements of `ints` are larger than 5 type: 
+ints > 5
+```
+```{r ex4_19-check}
+#Store variables globally
+```
+###
+We can use the resulting logical vector to ask other questions about `ints`. The `which()` function takes a logical vector as an argument and returns the indices of the vector that are TRUE. For example `which(c(TRUE, FALSE, TRUE))` would return the vector `c(1, 3)`.
+**Use the `which()` function to find the indices of ints that are greater than 7.**
+```{r ex4_20, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_20-hint}
+#Use the which() function on the logical vector produced by `ints > 7`
+```
+```{r ex4_20-check}
+#Store variables globally
+```
+###
+```{r quiz4_7}
+question("Which of the following commands would produce the indices of the elements in `ints` that are less than or equal to 2?",
+  answer("which(ints <= 2)", correct = TRUE),
+  answer("ints < 2"),
+  answer("ints <= 2"),
+  answer("which(ints < 2)"),
+  answer("Hint!"),
+  incorrect = "You can try it out in a seperate code block.",
+  allow_retry = TRUE
+)
+```
+###
+Like the `which()` function, the functions `any()` and `all()` take logical vectors as their argument. The `any()` function will return TRUE if one or more of the elements in the logical vector is TRUE. The `all()` function will return TRUE if every element in the logical vector is TRUE.
+
+**Use the `any()` function to see if any of the elements of ints are less than zero.**
+```{r ex4_21, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_21-hint}
+#Use the any() function on the logical vector produced by: `ints < 0`
+```
+```{r ex4_21-check}
+#Store variables globally
+```
+###
+**Use the `all()` function to see if all of the elements of ints are greater than zero.**
+```{r ex4_22, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_22-hint}
+#Use the all() function on the logical vector produced by: `ints > 0`
+```
+```{r ex4_22-check}
+#Store variables globally
+```
+###
+```{r quiz4_8}
+question("Which of the following evaluates to TRUE?",
+  answer("all(ints == 10)"),
+  answer("all(c(TRUE, FALSE, TRUE))"),
+  answer("any(ints == 2.5)"),
+  answer("any(ints == 10)", correct = TRUE),
+  answer("Hint!"),
+  incorrect = "any() will evaluate to TRUE if there is one or more TRUE elements in a logical vector, all() will evaluate to TRUE if all elements in a logical vector are TRUE.",
+  allow_retry = TRUE
+)
+```
+###
+That's all for this introduction to logic in R.
+
+## Personal Notes 
+You can use this chapter as your own personal notebook. You can use this space to experiment with pieces of code, to write down questions that you want to ask during the lectures, or you can make note of sections in the lessons that you find particularly useful.
+
+```{r ex6_1, exercise=TRUE, exercise.lines = 50}
+#Write notes in here:
+```

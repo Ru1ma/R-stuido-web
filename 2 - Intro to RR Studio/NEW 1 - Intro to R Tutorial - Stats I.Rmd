@@ -1,0 +1,1361 @@
+---
+title: "Statistics for CSAI I - Tutorial 1 - Intro to R"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+
+tutorial_options(exercise.eval = FALSE, exercise.checker=FALSE)
+```
+## LearnR Environment {data-progressive=TRUE}
+###
+Welcome to the digital learning environment for the course **`Statistics for CSAI I`**!   
+This environment contains several lessons that are designed to interactively introduce different concepts to you. 
+These lessons are not mandatory, but they will greatly improve your understanding of the course content, as well as develop your statistical programming and analysis skills. 
+
+*Click Continue to reveal the next part of the lesson*
+
+### **Lesson Structures** 
+This environment can contain multiple lessons. You can navigate between lessons by using the table of contents on the left side of your screen. As you work through the lessons, all of your progress is stored. You can freely move between lessons or close the environment, and your progress should be stored for the next time that you open this file.
+
+Each lesson consists of explanations of different concepts, along with code blocks where you can try out new syntax and multiple choice questions that test your knowledge. An example of such a code block can be found under the Code Blocks section below. Whenever you are expected to program something yourself in such a code block, this is highlighted through bold text. 
+
+After finishing all the lessons, you can visit the `Exercise` section from the table of contents on the left side. In this section you will be able to test your knowledge from the lessons on several more complicated exercises. Try your best to solve these exercises by yourself, if you struggle with them you can always look up information in the lessons or online.
+
+Finally, the last chapter in the table of content is called `Personal Notes`. This section allows you to take notes on anything that you may find important or that you feel like you need to remember.
+
+### **Code Blocks** 
+You can write your own code in each code block, and see what happens when you run that code by clicking the `Run Code` button on the right side. You are highly encouraged to try experimenting with different variables and functions to get a better feel for how code works.
+
+If you want to reset a code block, you can press the `Start Over` button on the top of the code block. This only resets that specific code block, so you don't need to worry about losing the rest of your progress. <span style="color: red;">Keep in mind that this button is different from the "Start Over" button under the lesson menu on the left side, as that button resets all of your progress globally.</span>
+
+When you are uncertain about what you need to do in a code block, make sure to read the bold text above the code block, as well as the text around that. This should usually give you a good idea of what is expected from you. Alternatively, you can click the `Hint` button on the top of the code block, to get a hint about what you are supposed to do.
+
+Once you are satisfied with the code that you have created, you can click the `Submit Answer` button. This button stores the variables that you have created, so that they can be used by other code blocks as well. 
+
+<span style="color: green;">Remember to click `Submit Answer` for each code block, otherwise you might run into issues when trying to move on to the next question.</span> If you get an error preventing you from continuing, go back and check that you've done this. You can use the global `Start Over` button to reset the lessons if needed.
+
+Here's an example code block:  
+**Find the solution to `3 + 3` as well as the solution to `3 * 3`.** 
+```{r ex0_1, exercise=TRUE, exercise.lines = 5}
+#You can write your code in here. For this example, we have already provided some code:
+3 + 3
+#Add the rest of your code below:
+```
+```{r ex0_1-hint}
+#When you click the "Hint" button, you often see a small hint.
+#This could be an abstract explanation of how to tackle a problem, but it could also give a code example:
+
+#For this question, you were asked to solve `3 + 3` as well as `3 * 3`.
+#Since the line for `3 + 3` was already given, you only need to add a line that calculates `3 * 3`.
+#The resulting code should look something like:
+3 + 3
+3 * 3
+
+#The output should then look like this:
+[1] 6
+[1] 9
+```
+```{r ex0_1-check}
+#Store variable globally
+```
+
+
+### **Multiple Choice Questions** 
+Lessons can also contain multiple choice questions, in which you are generally asked to think about concepts or code snippets. You are encouraged to carefully consider the question and the possible answers before choosing the most suitable answer. However, if you do get a question wrong, you can retry the question as many times as you want, until you get the right answer. Some questions offer a hint, which can be useful for when you don't know how to solve a question.
+
+For example:  
+```{r quiz0_1}
+question("Are you allowed to retry multiple choice questions after getting an answer wrong?",
+  answer("Yes!", correct = TRUE),
+  answer("No!"),
+  answer("I don't know!"),
+  answer("Hint"),
+  incorrect = "Hint: The goal of this environment is that you can practice without having to worry about making mistakes! As such, feel free to try to pick another answer!",
+  allow_retry = TRUE
+)
+```
+
+
+
+## Basic Building Blocks {data-progressive=TRUE}
+<font size="1"> Adapted from the SWIRL lessons "R Programming E": https://github.com/swirldev/R_Programming_E </font>
+
+#### In this lesson, we will explore some basic building blocks of the R programming language.
+
+### **Simple calculations**
+In its simplest form, R can be used as an interactive calculator. **Type `5 + 7` and run the code.**  
+```{r ex0, exercise=TRUE}
+#Write your code here
+```
+```{r ex0-hint}
+#Type 5 + 7 and press Ctrl+Enter, or click "Run Code".
+5 + 7
+```
+```{r ex0-check}
+#Store variables globally
+```
+###
+R simply prints the result of 12 by default. However, R is a programming language and often the reason we use a programming language as opposed to a calculator is to automate some process or avoid unnecessary repetition. In this case, we may want to use our result from above in a second calculation.
+
+Instead of retyping `5 + 7` every time we need it, we can just create a new variable that stores the result. The way you assign a value to a variable in R is by using the assignment operator, which is just a ''less than'' symbol followed by a ''minus'' sign. It looks like this: `<-`  
+
+Think of the assignment operator as an arrow. You are assigning the value
+on the right side of the arrow to the variable name on the left side of the arrow.
+
+**To assign the result of `5 + 7` to a new variable called `x`, you type `x <- 5 + 7`. This can be read as 'x gets 5 plus 7'. Give it a try now.**
+```{r ex1, exercise=TRUE}
+#Write your code here
+
+```
+```{r ex1-hint}
+#Type x <- 5 + 7. It's important to include a single space on each side of the assignment operator, 
+#  but do NOT put a space between the `<` and the `-` that form the arrow.
+
+x <- 5 + 7
+```
+```{r ex1-check}
+#Store variables globally
+print("")
+```
+###
+You'll notice that R did not print the result of 12 this time. When you use the assignment operator, R assumes that you don't want to see the result immediately, but rather that you intend to use the result for something else later on.
+
+**To view the contents of the variable `x`, just type `x` and run the code. Try it now.**
+```{r ex2, exercise=TRUE}
+#Write your code here
+
+```
+```{r ex2-hint}
+#To display the contents of x, you can simply type x.
+x
+```
+```{r ex2-check}
+#Store variables globally
+```
+###
+**Now, store the result of `x - 3` in a new variable called `y`.**
+```{r ex3, exercise=TRUE}
+#Write your code here
+```
+```{r ex3-hint}
+#Type y <- x - 3 and press Enter. Whether you use x - 3 or x-3 is personal preference, 
+#  but it's good habit to include a space on either side of the assignment operator.
+y <- x - 3
+```
+```{r ex3-check}
+#Store variables globally
+```
+###
+**What is the value of `y`? Type `y` to find out.**
+```{r ex4, exercise=TRUE}
+#Write your code here
+
+```
+```{r ex4-hint}
+#To display the contents of y, you can simply type y.
+y
+```
+```{r ex4-check}
+#Store variables globally
+```
+
+### **Vectors**
+Now, let's create a small collection of numbers called a vector. Any object that contains data is called a data structure and numeric vectors are the simplest type of data structure in R. In fact, even a single number is considered a vector of length one. 
+
+The easiest way to create a vector is with the `c()` function, which stands for 'concatenate' or 'combine'. To create a vector containing the numbers 1.1, 9, and 3.14, type `c(1.1, 9, 3.14)`. **Try it now and store the result in a variable called `z`.**
+```{r ex5, exercise=TRUE}
+#Write your code here
+```
+```{r ex5-hint}
+#Inputting z <- c(1.1, 9, 3.14) will assign the vector (1.1, 9, 3.14) to a new variable called z. 
+#Including single spaces after the commas in the vector is not required, 
+#  but helps make your code less cluttered and more readable.
+z <- c(1.1, 9, 3.14)
+```
+```{r ex5-check}
+#Store variables globally
+```
+###
+Anytime you have questions about a particular function, you can access R's built-in help files via the `?` command. For example, if you want more information on the `c()` function, type `?c` without the parentheses that normally follow a function name. **Give it a try.**
+```{r ex6, exercise=TRUE}
+#Write your code here
+```
+```{r ex6-hint}
+#Type ?c and run the code. This will bring up the help file for the c() function.
+?c
+```
+```{r ex6-check}
+#Store variables globally
+```
+###
+**Type `z` to view its contents. Notice that there are no commas separating the values in the output.**
+```{r ex7, exercise=TRUE}
+#Write your code here
+```
+```{r ex7-hint}
+#Type z and run the code to view its contents.
+z
+```
+```{r ex7-check}
+#Store variables globally
+```
+###
+You can combine vectors to make a new vector. **Create a new vector that contains `z`, `555`, then `z` again in that order. Don't assign this vector to a new variable, so that we can just see the result immediately.**
+```{r ex8, exercise=TRUE}
+#Write your code here
+```
+```{r ex8-hint}
+#Type c(z, 555, z). Don't create a new variable. We just want to view the result.
+c(z, 555, z)
+```
+```{r ex8-check}
+#Store variables globally
+```
+
+### **Vector arithmetic expressions**
+Numeric vectors can be used in arithmetic expressions. **Type the following to see what happens: `z * 2 + 100`.**
+```{r ex9, exercise=TRUE}
+#Write your code here
+```
+```{r ex9-hint}
+#Enter z * 2 + 100, without assigning the result to a variable. 
+#The `*` symbol is used for multiplication and shares a key with the number 8 on many keyboards.
+z * 2 + 100
+```
+```{r ex9-check}
+#Store variables globally
+```
+###
+First, R multiplied each of the three elements in `z` by 2. Then it added 100 to each element to get the result you see above. Other common arithmetic operators are `+`, `-`, `/`, and `^` (where `x^2` means 'x squared'). To take the square root, use the `sqrt()` function and to take the absolute value, use the `abs()` function.  
+
+**Take the square root of `z - 1` and assign it to a new variable called `my_sqrt`.**
+```{r ex10, exercise=TRUE}
+#Write your code here
+```
+```{r ex10-hint}
+#Assign the result of sqrt(z - 1) to a variable called my_sqrt.
+my_sqrt <- sqrt(z - 1)
+```
+```{r ex10-check}
+#Store variables globally
+```
+```{r quiz1}
+question("Before we view the contents of the my_sqrt variable, what do you think it contains?",
+  answer("a vector of length 3", correct = TRUE),
+  answer("a single number (i.e. a vector of length 1)"),
+  answer("a vector of length 0 (i.e. an empty vector)"),
+  allow_retry = TRUE
+)
+```
+###
+**Print the contents of `my_sqrt`.**
+```{r ex11, exercise=TRUE}
+#Write your code here
+```
+```{r ex11-hint}
+#Just type my_sqrt and run the code to view its value.
+```
+```{r ex11-check}
+#Store variables globally
+```
+###
+As you may have guessed, R first subtracted 1 from each element of `z`, then took the square root of each element. This leaves you with a vector of the same length as the original vector `z`.  
+**Now, create a new variable called my_div that gets the value of z divided by my_sqrt.**
+```{r ex12, exercise=TRUE}
+#Write your code here
+```
+```{r ex12-hint}
+#Enter my_div <- z / my_sqrt. The spaces on either side of the `/` sign are not required, 
+#  but can often improve readability by making code appear less cluttered. 
+#In the end, it's personal preference.
+my_div <- z / my_sqrt
+```
+```{r ex12-check}
+#Store variables globally
+```
+```{r quiz2}
+question("Which statement do you think is true?",
+  answer("my_div is a single number (i.e a vector of length 1)"),
+  answer("The first element of my_div is equal to the first element of z divided by the first element of my_sqrt, and so on...", correct = TRUE),
+  answer("my_div is undefined"),
+  allow_retry = TRUE
+)
+```
+###
+**Go ahead and print the contents of `my_div`.**
+```{r ex13, exercise=TRUE}
+#Write your code here
+```
+```{r ex13-hint}
+#Type my_div and run the code to see its contents.
+my_div
+```
+```{r ex13-check}
+#Store variables globally
+```
+###
+When given two vectors of the same length, R simply performs the specified arithmetic operation (`+`, `-`, `*`, etc.) element-by-element. If the vectors are of different lengths, R 'recycles' the shorter vector until it is the same length as the longer vector.  
+When we did `z * 2 + 100` in our earlier example, `z` was a vector of length 3, but technically `2` and `100` are each vectors of length 1. Behind the scenes, R is 'recycling'' the `2` to make a vector of 2s and the `100` to make a vector of 100s. In other words, when you ask R to compute `z * 2 + 100`, what it really computes is this: `z * c(2, 2, 2) + c(100, 100, 100)`.
+
+**To see another example of how this vector 'recycling' works, try adding `c(1, 2, 3, 4)` and `c(0, 10)`. Don't worry about saving the result in a new variable.**
+```{r ex14, exercise=TRUE}
+#Write your code here
+```
+```{r ex14-hint}
+#Enter c(1, 2, 3, 4) + c(0, 10) in the console to see how R adds two vectors of different length. 
+#Don't assign the result to a variable.
+```
+```{r ex14-check}
+#Store variables globally
+```
+###
+If the length of the shorter vector does not divide evenly into the length of the longer vector, R will still apply the 'recycling' method, but will throw a warning to let you know something fishy might be going on.
+
+**Try c(1, 2, 3, 4) + c(0, 10, 100) for an example.**
+```{r ex15, exercise=TRUE}
+#Write your code here
+```
+```{r ex15-hint}
+#Type c(1, 2, 3, 4) + c(0, 10, 100) to see how R handles adding two vectors,
+#when the shorter vector's length does not divide evenly into the longer vector's length. 
+#Don't worry about assigning the result to a variable.
+```
+```{r ex15-check}
+#Store variables globally
+```
+###
+
+### Tips
+
+Before concluding this lesson, I'd like to show you a time-saving trick.  
+Let's pretend you'd like to view the contents of a variable that you created earlier, but you can't seem to remember if you named it `my_div` or `myDiv`. You could try both and see what works, or...
+You can type the first two letters of the variable name, then hit the Tab key (possibly more than once). Most programming environments will provide a list of variables that you've created that begin with 'my'. This is called auto-completion and can be quite handy when you have many variables in your workspace. 
+**Give auto-completion a try.**
+```{r ex16, exercise=TRUE}
+#Write your code here
+```
+```{r ex16-check}
+#Store variables globally
+```
+
+<!-- Example code for creating a codeblock with setup and hint: 
+```{r ex_-setup} 
+#Setup
+```
+```{r ex_, exercise=TRUE}
+#Write your code here
+```
+```{r ex_-hint}
+#Hint
+```
+```{r ex_-check}
+#Store variables globally
+```
+-->
+
+<!-- Example code for creating a quiz (multiple questions can be added in a quiz):
+```{r quiz_}
+question("QUESTION",
+  answer("ANSWER1"),
+  answer("ANSWER2"),
+  answer("ANSWER3", correct = TRUE),
+  answer("ANSWER4"),
+  allow_retry = TRUE
+)
+```
+-->
+
+
+## Workspace and Files {data-progressive=TRUE}
+<font size="1"> Adapted from the SWIRL lessons "R Programming E": https://github.com/swirldev/R_Programming_E </font>
+
+#### In this lesson, you'll learn how to examine your local workspace in R and begin to explore the relationship between your workspace and the file system of your machine.
+
+Because different operating systems have different conventions with regards to things like file paths, the outputs of these commands may vary across machines. However it's important to note that R provides a common API (a common set of commands) for interacting with files, that way your code will work across different kinds of computers. Let's jump right in so you can get a feel for how these special functions work!
+
+### **Checking The Working Directory**
+
+**Determine which directory your R session is using as its current working directory using `getwd()`.** Note that the working directoy for LearnR tutorials is dynamic. This means you'll get a different result each time you run the code block below.
+```{r ex2_1, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_1-hint}
+#Type getwd() to determine the current working directory.
+getwd()
+```
+```{r ex2_1-check}
+#Store variables globally
+```
+###
+**List all the objects in your local workspace using `ls()`.**
+```{r ex2_2, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_2-hint}
+#Type ls() to view all the objects in your local workspace.
+ls()
+```
+```{r ex2_2-check}
+#Store variables globally
+```
+###
+Some R commands are the same as their equivalents commands on Linux or on a Mac. Both Linux and Mac operating systems are based on an operating system called Unix. It's always a good idea to learn more about Unix!
+**Assign 9 to `x` using `x <- 9`.**
+```{r ex2_3, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_3-hint}
+#Type x <- 9 to assign 9 to x.
+x <- 9
+```
+```{r ex2_3-check}
+#Store variables globally
+```
+###
+**Now take a look at objects that are in your workspace using `ls()`.**
+```{r ex2_4-setup}
+x <- 9
+```
+```{r ex2_4, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_4-hint}
+#Type ls() to view all the objects in your workspace.
+ls()
+```
+```{r ex2_4-check}
+#Store variables globally
+```
+###
+**List all the files in your working directory using `list.files()` or `dir()`.**
+```{r ex2_5, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_5-hint}
+#Type list.files() to all the files in your working directory.
+list.files()
+```
+```{r ex2_5-check}
+#Store variables globally
+```
+###
+As we go through this lesson, you should be examining the help page for each new function. **Check out the help page for `list.files` with the command `?list.files`.**
+```{r ex2_6, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_6-hint}
+#Type ?list.files to see the help page.
+?list.files
+```
+```{r ex2_6-check}
+#Store variables globally
+```
+###
+One of the most helpful parts of any R help file is the See Also section. Read that section for `list.files`. Some of these functions may be used in later portions of this lesson.
+
+Using the `args()` function on a function name is also a handy way to see what arguments a function can take. 
+
+**Use the `args()` function to determine the arguments to `list.files`.**
+```{r ex2_7, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_7-hint}
+#Type args(list.files) to see the arguments to list.files.
+args(list.files)
+```
+```{r ex2_7-check}
+#Store variables globally
+```
+
+### **Changing the Working Directory**
+
+If you were experimenting with working directories outside of LearnR, it would be smart to save your working directory first using `old.dir <- getwd()`. Then you could easily return to your original working directory using `setwd(old.dir)`. However, since LearnR uses dynamic working directories we will skip this step.
+
+**Use `dir.create()` to create a directory in the current working directory called `testdir`.**
+```{r ex2_9, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_9-hint}
+#Type dir.create("testdir") to create a directory in the current working directory called "testdir".
+dir.create("testdir")
+```
+```{r ex2_9-check}
+#Store variables globally
+```
+###
+
+**Set your working directory to `testdir` with the `setwd()` command.**
+```{r ex2_10-setup}
+dir.create("testdir")
+```
+```{r ex2_10, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_10-hint}
+#Use setwd("testdir") to set your working directory to "testdir".
+setwd("testdir")
+```
+```{r ex2_10-check}
+#Store variables globally
+```
+###
+In general, you will want your working directory to be someplace sensible, perhaps created for the specific project that you are working on. In fact, organizing your work in R packages using RStudio is an excellent option. Check out RStudio at http://www.rstudio.com/ if you are not yet familiar with this environment.
+
+**Create a file in your working directory called `mytest.R` using the `file.create()` function.**
+```{r ex2_11-setup} 
+dir.create("testdir")
+setwd("testdir")
+```
+```{r ex2_11, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_11-hint}
+#file.create("mytest.R") will get the job done!
+file.create("mytest.R")
+```
+```{r ex2_11-check}
+#Store variables globally
+```
+###
+This should be the only file in this newly created directory. **Let's check this by listing all the files in the current directory.**
+```{r ex2_12-setup} 
+dir.create("testdir")
+setwd("testdir")
+#catchValue is used to store the output from file.create(), so that it is not printed.
+catchValue <- file.create("mytest.R")
+#catchValue is then removed to avoid it showing up with the ls() command.
+rm(catchValue)
+```
+```{r ex2_12, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_12-hint}
+#list.files() shows that the directory only contains mytest.R.
+list.files()
+```
+```{r ex2_12-check}
+#Store variables globally
+```
+###
+**Check to see if `mytest.R` exists in the working directory using the `file.exists()` function.**
+```{r ex2_13-setup} 
+dir.create("testdir")
+setwd("testdir")
+catchValue <- file.create("mytest.R")
+rm(catchValue)
+```
+```{r ex2_13, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_13-hint}
+#Use file.exists("mytest.R") to check that a file exists.
+file.exists("mytest.R")
+```
+```{r ex2_13-check}
+#Store variables globally
+```
+###
+These sorts of functions are excessive for interactive use. But, if you are running a program that loops through a series of files and does some processing on each one, you will want to check to see that each exists before you try to process it.
+
+**Access information about the file `mytest.R` by using `file.info()`.**
+```{r ex2_14-setup} 
+dir.create("testdir")
+setwd("testdir")
+catchValue <- file.create("mytest.R")
+rm(catchValue)
+```
+```{r ex2_14, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_14-hint}
+#file.info("mytest.R") will do the trick!
+file.info("mytest.R")
+```
+```{r ex2_14-check}
+#Store variables globally
+```
+###
+You can use the `$` operator --- e.g., `file.info("mytest.R")$mode` --- to grab specific items.  
+
+**Change the name of the file `mytest.R` to `mytest2.R` by using `file.rename()`.**
+```{r ex2_15-setup} 
+dir.create("testdir")
+setwd("testdir")
+catchValue <- file.create("mytest.R")
+rm(catchValue)
+```
+```{r ex2_15, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_15-hint}
+#file.rename("mytest.R", "mytest2.R") is the answer. 
+#Googling using key words from the question, along with the letter R, 
+#  will often give you a good hint.
+file.rename("mytest.R", "mytest2.R")
+```
+```{r ex2_15-check}
+#Store variables globally
+```
+###
+Your operating system will provide simpler tools for these sorts of tasks, but having the ability to manipulate files programatically is useful. You might now try to delete `mytest.R` using `file.remove('mytest.R')`, but that won't work since `mytest.R` no longer exists. You have already renamed it.
+**Make a copy of `mytest2.R` called `mytest3.R` using `file.copy()`.**
+```{r ex2_16-setup} 
+dir.create("testdir")
+setwd("testdir")
+catchValue <- file.create("mytest2.R")
+rm(catchValue)
+```
+```{r ex2_16, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_16-hint}
+#file.copy("mytest2.R", "mytest3.R") works.
+file.copy("mytest2.R", "mytest3.R")
+```
+```{r ex2_16-check}
+#Store variables globally
+```
+###
+You now have two files in the current directory. That may not seem very interesting. But what if you were working with dozens, or millions, of individual files? In that case, being able to programatically act on many files would be absolutely necessary.
+**Provide the relative path to the file `mytest3.R` by using `file.path()`.**
+```{r ex2_17-setup} 
+dir.create("testdir")
+setwd("testdir")
+catchValue <- file.create("mytest2.R")
+catchValue <- file.copy("mytest2.R", "mytest3.R")
+rm(catchValue)
+```
+```{r ex2_17, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_17-hint}
+#file.path("mytest3.R") works.
+file.path("mytest3.R")
+```
+```{r ex2_17-check}
+#Store variables globally
+```
+###
+You can use `file.path` to construct file and directory paths that are independent of the operating system your R code is running on. 
+**Pass 'folder1' and 'folder2' as arguments to `file.path` to make a platform-independent pathname.**
+```{r ex2_18-setup} 
+dir.create("testdir")
+setwd("testdir")
+catchValue <- file.create("mytest2.R")
+catchValue <- file.copy("mytest2.R", "mytest3.R")
+rm(catchValue)
+```
+```{r ex2_18, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_18-hint}
+#file.path("folder1", "folder2") works.
+file.path("folder1", "folder2")
+```
+```{r ex2_18-check}
+#Store variables globally
+```
+###
+**Take a look at the documentation for `dir.create` by entering `?dir.create`. Notice the 'recursive' argument. In order to create nested directories, 'recursive' must be set to TRUE.**
+```{r ex2_19-setup} 
+dir.create("testdir")
+setwd("testdir")
+catchValue <- file.create("mytest2.R")
+catchValue <- file.copy("mytest2.R", "mytest3.R")
+rm(catchValue)
+```
+```{r ex2_19, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_19-hint}
+#?dir.create will show you the docs.
+?dir.create
+```
+```{r ex2_19-check}
+#Store variables globally
+```
+###
+**Create a directory in the current working directory called "testdir2" and a subdirectory for it called "testdir3", all in one command by using `dir.create()` and `file.path()`.**
+```{r ex2_20-setup} 
+dir.create("testdir")
+setwd("testdir")
+catchValue <- file.create("mytest2.R")
+catchValue <- file.copy("mytest2.R", "mytest3.R")
+rm(catchValue)
+```
+```{r ex2_20, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_20-hint}
+#dir.create(file.path('testdir2', 'testdir3'), recursive = TRUE) will do the trick. 
+#If you forgot the recursive argument, the command may have appeared to work, 
+#  but it didn't create the nested directory.
+dir.create(file.path('testdir2', 'testdir3'), recursive = TRUE)
+```
+```{r ex2_20-check}
+#Store variables globally
+```
+###
+**Check your work by listing all the directories in your current working directory.**
+
+```{r ex2_21-setup} 
+dir.create("testdir")
+setwd("testdir")
+catchValue <- file.create("mytest2.R")
+catchValue <- file.copy("mytest2.R", "mytest3.R")
+dir.create(file.path('testdir2', 'testdir3'), recursive = TRUE)
+rm(catchValue)
+```
+```{r ex2_21, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_21-hint}
+#Use list.dirs()
+list.dirs()
+```
+```{r ex2_21-check}
+#Store variables globally
+```
+###
+
+**Delete "testdir2 and its contents by using `unlink()` on "testdir2".** Remember to use the recursive = TRUE parameter for nested folders. If you get stuck, use `?unlink` for a hint. 
+
+**Use `list.dirs()` again to see if the output has changed.**
+
+```{r ex2_22-setup} 
+dir.create("testdir")
+setwd("testdir")
+catchValue <- file.create("mytest2.R")
+catchValue <- file.copy("mytest2.R", "mytest3.R")
+dir.create(file.path('testdir2', 'testdir3'), recursive = TRUE)
+rm(catchValue)
+```
+```{r ex2_22, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_22-hint}
+#Delete the nested directory
+unlink("testdir2", recursive = TRUE)
+#Use list.dirs()
+list.dirs()
+```
+```{r ex2_22-check}
+#Store variables globally
+```
+###
+
+In this lesson, you learned how to examine your R workspace and work with the file system of your machine from within R. Thanks for playing! 
+
+
+<!-- Example code for creating a codeblock with setup and hint: 
+```{r ex2_-setup} 
+#Setup
+```
+```{r ex2_, exercise=TRUE}
+#Write your code here
+```
+```{r ex2_-hint}
+#Hint
+```
+```{r ex2_-check}
+#Store variables globally
+```
+-->
+
+<!-- Example code for creating a quiz (multiple questions can be added in a quiz):
+```{r quiz2_}
+question("QUESTION",
+  answer("ANSWER1"),
+  answer("ANSWER2"),
+  answer("ANSWER3", correct = TRUE),
+  answer("ANSWER4"),
+  allow_retry = TRUE
+)
+```
+-->
+
+## Sequence of Numbers {data-progressive=TRUE}
+<font size="1"> Adapted from the SWIRL lessons "R Programming E": https://github.com/swirldev/R_Programming_E </font>
+
+#### In this lesson, you'll learn how to create sequences of numbers in R.
+
+The simplest way to create a sequence of numbers in R is by using the `:` operator. **Type `1:20` to see how it works.**
+```{r ex3_1, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_1-hint}
+#Type 1:20 with no spaces. Make sure to use a regular colon and NOT a semi-colon.
+1:20
+```
+```{r ex3_1-check}
+#Store variables globally
+```
+
+###
+That gave us every integer between (and including) 1 and 20. We could also use it to create a sequence of real numbers. **For example, try `pi:10`.**
+```{r ex3_2, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_2-hint}
+#Enter pi:10 and see what happens. 
+#pi is a predefined constant in R that takes on the value 3.1415....
+pi:10
+```
+```{r ex3_2-check}
+#Store variables globally
+```
+###
+The result is a vector of real numbers starting with pi (3.142...) and increasing in increments of 1. The upper limit of 10 is never reached, since the next number in our sequence would be greater than 10.
+
+What happens if we do 15:1? **Give it a try to find out.**
+```{r ex3_3, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_3-hint}
+#Type 15:1 and run the code.
+15:1
+```
+```{r ex3_3-check}
+#Store variables globally
+```
+###
+It counted backwards in increments of 1! It's unlikely we'd want this behavior, but nonetheless it's good to know how it could happen.
+
+Remember that if you have questions about a particular R function, you can access its documentation with a question mark followed by the function name: `?function_name_here`. However, in the case of an operator like the colon used above, you must enclose the symbol in backticks like this: **?\`:\`**. 
+*(NOTE: The backtick (`) key is generally located in the top left corner of a keyboard, above the Tab key. If you don't have a backtick key, you can use regular quotes.)*
+
+**Pull up the documentation for `:` now.**
+```{r ex3_4, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_4-hint}
+#In order to view the documentation for a symbol like the colon operator,
+#  you have to use backticks (or quotes). 
+#This is so R knows you are not attempting to use the symbol in the command. 
+#Here's what it looks like: ?`:`. Don't forget the questionmark out front.
+?`:`
+```
+```{r ex3_4-check}
+#Store variables globally
+```
+###
+Often, we'll desire more control over a sequence we're creating than what the `:` operator gives us. The `seq()` function serves this purpose.
+The most basic use of `seq()` does exactly the same thing as the `:` operator.
+**Try `seq(1, 20)` to see this.**
+```{r ex3_5, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_5-hint}
+#Type seq(1, 20) and run the code. The space after the comma is not required, 
+#  but is recommended as it tends to make your code appear less cluttered.
+seq(1, 20)
+```
+```{r ex3_5-check}
+#Store variables globally
+```
+###
+This gives us the same output as `1:20`. However, let's say that instead we want a vector of numbers ranging from 0 to 10, incremented by 0.5. 
+**`seq(0, 10, by=0.5)` does just that. Try it out.**
+```{r ex3_6, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_6-hint}
+#You are still using the seq() function here, but this time with an extra argument
+#  that tells R you want to increment your sequence by 0.5. Try seq(0, 10, by=0.5).
+seq(0, 10, by=0.5)
+```
+```{r ex3_6-check}
+#Store variables globally
+```
+###
+Or maybe we don't care what the increment is and we just want a sequence of 30 numbers between 5 and 10. `seq(5, 10, length=30)` does the trick. **Give it a shot now and store the result in a new variable called `my_seq`.**
+```{r ex3_7, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_7-hint}
+#You're using the same function here, but changing its arguments for different results. 
+#Be sure to store the result in a new variable called my_seq, like this:
+my_seq <- seq(5, 10, length=30)
+```
+```{r ex3_7-check}
+#Store variables globally
+```
+###
+To confirm that `my_seq` has length 30, we can use the `length()` function.
+**Try it now.**
+```{r ex3_8, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_8-hint}
+#Use length(my_seq) to view the length of the my_seq variable.
+length(my_seq)
+```
+```{r ex3_8-check}
+#Store variables globally
+```
+###
+Let's pretend we don't know the length of `my_seq`, but we want to generate a sequence of integers from 1 to N, where N represents the length of the `my_seq` vector. In other words, we want a new vector (1, 2, 3, ...) that is the same length as `my_seq`.
+
+There are several ways we could do this. One possibility is to combine the `:` operator and the `length()` function like this: `1:length(my_seq)`. **Give that a try.**
+```{r ex3_9, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_9-hint}
+#Try 1:length(my_seq), without assigning the result to a new variable.
+1:length(my_seq)
+```
+```{r ex3_9-check}
+#Store variables globally
+```
+###
+Another option is to use `seq(along.with = my_seq)`. **Give that a try.**
+```{r ex3_10, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_10-hint}
+#Type seq(along.with = my_seq). 
+#Notice we're using the same seq() function, but with a different argument called `along.with`. 
+#This tells R that you want a sequence 'along with' the sequence my_seq. 
+#Remember you can type ?seq if you have questions about the seq() function.
+seq(along.with = my_seq)
+```
+```{r ex3_10-check}
+#Store variables globally
+```
+###
+However, as is the case with many common tasks, R has a separate built-in function for this purpose called `seq_along()`. **Type `seq_along(my_seq)` to see it in action.**
+```{r ex3_11, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_11-hint}
+#The seq_along() function is a variation of the seq() function. 
+#Try seq_along(my_seq) to get the same result yet another way.
+seq_along(my_seq)
+```
+```{r ex3_11-check}
+#Store variables globally
+```
+###
+There are often several approaches to solving the same problem, particularly in R. Simple approaches that involve less typing are generally best. It's also important for your code to be readable, so that you and others can figure out what's going on without too much hassle.
+
+If R has a built-in function for a particular task, it's likely that function is highly optimized for that purpose and is your best option. As you become a more advanced R programmer, you'll design your own functions to perform tasks when there are no better options. You can explore writing your own functions in lesson 9 of the R Programming Swirl package.
+
+One more function related to creating sequences of numbers is `rep()`, which stands for 'replicate'. Let's look at a few uses.
+If we're interested in creating a vector that contains 40 zeros, we can use `rep(0, times = 40)`. **Try it out.**
+```{r ex3_12, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_12-hint}
+#Type rep(0, times = 40) to make a vector containing 40 zeros.
+rep(0, times = 40)
+```
+```{r ex3_12-check}
+#Store variables globally
+```
+###
+If instead we want our vector to contain 10 repetitions of the vector (0, 1, 2), we can do `rep(c(0, 1, 2), times = 10)`. **Go ahead.**
+```{r ex3_13, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_13-hint}
+#Try rep(c(0, 1, 2), times = 10) for a different variation on the same theme. 
+#Be sure to use the c() function to tell R that the numbers 0, 1, and 2 make up a vector.
+rep(c(0, 1, 2), times = 10)
+```
+```{r ex3_13-check}
+#Store variables globally
+```
+###
+Finally, let's say that rather than repeating the vector (0, 1, 2) over and over again, we want our vector to contain 10 zeros, then 10 ones, then 10 twos. We can do this with the `each` argument. **Try `rep(c(0, 1, 2), each = 10)`.**
+```{r ex3_14, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_14-hint}
+#Type rep(c(0, 1, 2), each = 10) to see how the `each` argument to the rep() function 
+#  alters its behavior slightly.
+rep(c(0, 1, 2), each = 10)
+```
+```{r ex3_14-check}
+#Store variables globally
+```
+
+In this lesson, you learned how to create various sequences of numbers in a clear and efficient way. In the next lesson we will explore what we can use these sequences for.
+
+<!-- Example code for creating a codeblock with setup and hint: 
+```{r ex3_-setup} 
+#Setup
+```
+```{r ex3_, exercise=TRUE}
+#Write your code here
+```
+```{r ex3_-hint}
+#Hint
+```
+```{r ex3_-check}
+#Store variables globally
+```
+-->
+
+<!-- Example code for creating a quiz (multiple questions can be added in a quiz):
+```{r quiz3_}
+question("QUESTION",
+  answer("ANSWER1"),
+  answer("ANSWER2"),
+  answer("ANSWER3", correct = TRUE),
+  answer("ANSWER4"),
+  allow_retry = TRUE
+)
+```
+-->
+
+## Vectors {data-progressive=TRUE}
+<font size="1"> Adapted from the SWIRL lessons "R Programming E": https://github.com/swirldev/R_Programming_E </font>
+
+#### In this lesson you will learn more about different types of vectors and how they can be used.
+The simplest and most common data structure in R is the vector. Vectors come in two different flavors: atomic vectors and lists. An atomic vector contains exactly one data type, whereas a list may contain multiple data types. We'll explore atomic vectors further before we get to lists.
+
+In previous lessons, we dealt entirely with numeric vectors, which are one type of atomic vector. Other types of atomic vectors include logical, character, integer, and complex. In this lesson, we'll take a closer look at logical and character vectors.
+
+### **Logical Vectors**
+
+Logical vectors can contain the values `TRUE`, `FALSE`, and `NA` (for 'not available'). These values are generated as the result of logical 'conditions'. Let's experiment with some simple conditions.
+
+**First, create a numeric vector `num_vect` that contains the values 0.5, 55, -10, and 6.**
+```{r ex4_1, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_1-hint}
+#Recall that the c() function is used for creating a vector. 
+#If you forget how to use it, use ?c to access the help file. 
+#Don't forget to assign the result to a new variable called num_vect.
+num_vect <- c(0.5, 55, -10, 6)
+```
+```{r ex4_1-check}
+#Store variables globally
+```
+###
+**Now, create a variable called `tf` that gets the result of `num_vect < 1`, which is read as 'num_vect is less than 1'.**
+```{r ex4_2, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_2-hint}
+#Use tf <- num_vect < 1 to assign the result of num_vect < 1 to a variable called tf.
+tf <- num_vect < 1
+```
+```{r ex4_2-check}
+#Store variables globally
+```
+###
+```{r quiz4_1}
+question("What do you think tf will look like?",
+  answer("a single logical value"),
+  answer("a vector of 4 logical values", correct = TRUE),
+  allow_retry = TRUE
+)
+```
+###
+**Print the contents of `tf` now.**
+```{r ex4_3, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_3-hint}
+#Just type tf and run the code to view its value.
+tf
+```
+```{r ex4_3-check}
+#Store variables globally
+```
+###
+The statement `num_vect < 1` is a condition and tf tells us whether each corresponding element of our numeric vector num_vect satisfies this condition.
+The first element of `num_vect` is 0.5, which is less than 1 and therefore the statement `0.5 < 1` is `TRUE`. The second element of `num_vect` is 55, which is greater than 1, so the statement `55 < 1` is `FALSE`. The same logic applies for the third and fourth elements.
+
+**Let's try another. Type `num_vect >= 6` without assigning the result to a new variable.**
+```{r ex4_4, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_4-hint}
+#Don't create a new variable on this one. 
+#We just want to see the result of num_vect >= 6. 
+#Make sure there is no space between the `>` and `=` symbols. 
+#Think of them as one symbol representing 'greater than or equal to'.
+num_vect >= 6
+```
+```{r ex4_4-check}
+#Store variables globally
+```
+###
+This time, we are asking whether each individual element of `num_vect` is greater than OR equal to 6. Since only 55 and 6 are greater than or equal to 6, the second and fourth elements of the result are `TRUE` and the first and third elements are `FALSE`.  
+
+The `<` and `>=` symbols in these examples are called 'logical operators'. Other logical operators include `>`, `<=`, `==` for exact equality, and `!=` for inequality.  
+
+If we have two logical expressions, A and B, we can ask whether at least one is `TRUE` with `A | B` (logical 'or' a.k.a. 'union') or whether they are both `TRUE` with `A & B` (logical 'and' a.k.a. 'intersection'). Lastly, `!A` is the negation of A and is `TRUE` when A is `FALSE` and vice versa.
+
+It's a good idea to spend some time playing around with various combinations of these logical operators until you get comfortable with their use. We'll do a few examples here to get you started.
+Try your best to predict the result of each of the following statements. You can use pencil and paper to work them out if it's helpful.
+```{r quiz4_2}
+quiz(caption = "**Logical Vector Questions**",
+  question("(3 > 5) & (4 == 4)",
+    answer("TRUE"),
+    answer("FALSE", correct = TRUE),
+    answer("Hint"),
+    allow_retry = TRUE,
+    incorrect = "Break this problem down into 2 pieces. The `&` in the middle states that BOTH pieces are TRUE. Your job is to figure out if that is an accurate statement. If so, the entire condition is TRUE. If not, it's FALSE."
+  ),
+  question("(TRUE == TRUE) | (TRUE == FALSE)",
+    answer("TRUE", correct = TRUE),
+    answer("FALSE"),
+    answer("Hint"),
+    allow_retry = TRUE,
+    incorrect = "Break this problem down into 2 pieces. The `|` in the middle states that AT LEAST ONE of the pieces is TRUE. Your job is to figure out if that is an accurate statement. If so, the entire condition is TRUE. If not, it's FALSE."
+  ),
+  question("((111 >= 111) | !(TRUE)) & ((4 + 1) == 5)",
+    answer("TRUE", correct = TRUE),
+    answer("FALSE"),
+    answer("Hint"),
+    allow_retry = TRUE,
+    incorrect = "This is a tricky one. Remember that the `!` symbol negates whatever comes after it. There's also an 'order of operations' going on here. Conditions that are enclosed within parentheses should be evaluated first. Then, work your way outwards."
+  )
+)
+```
+###
+Don't worry if you found these to be tricky. They're supposed to be. Working with logical statements in R takes practice, but your efforts will be rewarded in future lessons (e.g. subsetting and control structures).  
+
+### **Character Vectors**
+Character vectors are also very common in R. Double quotes are used to distinguish character objects, as in the following example.
+**Create a character vector that contains the following words: "My", "name", "is". Remember to enclose each word in its own set of double quotes, so that R knows they are character strings. Store the vector in a variable called `my_char`.**
+```{r ex4_5, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_5-hint}
+#Type my_char <- c("My", "name", "is") to create a new variable called my_char 
+#  that contains a character vector of length 3. 
+#Make sure that the commas separating the words are OUTSIDE of the double quotes, 
+#  or else R thinks the commas are part of the words.
+my_char <- c("My","name", "is")
+```
+```{r ex4_5-check}
+#Store variables globally
+```
+###
+**Print the contents of `my_char` to see what it looks like.**
+```{r ex4_6, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_6-hint}
+#Type my_char to view its contents.
+my_char
+```
+```{r ex4_6-check}
+#Store variables globally
+```
+###
+Right now, `my_char` is a character vector of length 3. Let's say we want to join the elements of `my_char` together into one continuous character string (i.e. a character vector of length 1). We can do this using the `paste()` function.
+**Type `paste(my_char, collapse = " ")` now. Make sure there's a space between the double quotes in the `collapse` argument. You'll see why in a second.**
+```{r ex4_7, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_7-hint}
+#Use paste(my_char, collapse = " ") to collapse the words in the vector so they almost form a sentence. 
+#There should be a single space between the double quotes in the `collapse` argument 
+#  so that there are single spaces separating the words.
+paste(my_char, collapse = " ")
+```
+```{r ex4_7-check}
+#Store variables globally
+```
+###
+The `collapse` argument to the `paste()` function tells R that when we join together the elements of the `my_char` character vector, we'd like to separate them with single spaces.
+
+It seems that we're missing something.... Ah, yes! Your name!
+
+To add (or 'concatenate') your name to the end of `my_char`, use the `c()` function like this: `c(my_char, "your_name_here")`. Place your name in double quotes where I've put "your_name_here". **Try it now, storing the result in a new variable called `my_name`.**
+*Note: At this point we need to be able to transfer the contents of `my_name` to other exercise code blocks in order to preserve the continuity of this tutorial*
+```{r ex4_8, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_8-hint}
+#Tack your name on to the end of the my_char vector using the c() function.
+#Be sure to assign the result to a new variable called my_name. 
+#If your name was "Swirl", you would type my_name <- c(my_char, "Swirl").
+my_name <- c(my_char, "Name")
+```
+```{r ex4_8-check}
+#Store variables globally
+```
+###
+**Take a look at the contents of `my_name`.**
+```{r ex4_9, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_9-hint}
+#Type my_name and run the code to view its contents.
+my_name
+```
+```{r ex4_9-check}
+#Store variables globally
+```
+###
+**Now, use the `paste()` function once more to join the words in `my_name` together into a single character string. Don't forget to say `collapse = " "`!**
+```{r ex4_10, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_10-hint}
+#Use paste(my_name, collapse = " ") to join all four words together, separated by single spaces.
+paste(my_name, collapse = " ")
+```
+```{r ex4_10-check}
+#Store variables globally
+```
+###
+In this example, we used the `paste()` function to collapse the elements of a single character vector. `paste()` can also be used to join the elements of multiple character vectors.
+
+In the simplest case, we can join two character vectors that are each of length 1 (i.e. join two words). **Try `paste("Hello", "world!", sep = " ")`, where the `sep` argument tells R that we want to separate the joined elements with a single space.**
+```{r ex4_11, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_11-hint}
+#Enter paste("Hello", "world!", sep = " ") to join the two words "Hello" and "world", 
+#  separated by a single space. 
+#There should be a single space between the double quotes in the `sep` argument to the paste() function.
+paste("Hello", "world!", sep = " ")
+```
+```{r ex4_11-check}
+#Store variables globally
+```
+###
+For a slightly more complicated example, we can join two vectors, each of length 3. **Use `paste()` to join the integer vector 1:3 with the character vector `c("X", "Y", "Z")`. This time, use `sep = ""` to leave no space between the joined elements.**
+```{r ex4_12, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_12-hint}
+#Use paste(1:3, c("X", "Y", "Z"), sep = "") to see what happens 
+#  when we join two vectors of equal length using paste().
+paste(1:3, c("X", "Y", "Z"), sep = "")
+```
+```{r ex4_12-check}
+#Store variables globally
+```
+
+What do you think will happen if our vectors are of different length? *(Hint: we talked about this in a previous lesson.)*
+###
+Vector recycling! **Try `paste(LETTERS, 1:4, sep = "-")`, where `LETTERS` is a predefined variable in R containing a character vector of all 26 letters in the English alphabet.**
+```{r ex4_13, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_13-hint}
+#Type paste(LETTERS, 1:4, sep = "-") to see how R recycles the vector 1:4 
+#  to match the length of LETTERS. 
+#Notice we are using `-` as our separator this time instead of a single space.
+paste(LETTERS, 1:4, sep="-")
+```
+```{r ex4_13-check}
+#Store variables globally
+```
+
+Since the character vector `LETTERS` is longer than the numeric vector 1:4, R simply recycles, or repeats, 1:4 until it matches the length of `LETTERS`. Also worth noting is that the numeric vector 1:4 gets 'coerced' into a character vector by the `paste()` function.  
+We'll discuss coercion in another lesson, but all it really means is that the numbers 1, 2, 3, and 4 in the output above are no longer numbers to R, but rather characters "1", "2", "3", and "4".
+
+
+In this lesson, you learned how to create and use logical and character vectors. You have seen how vectors can be joined together using the `paste()` function and how vector recycling can be used to combine vectors of unequal lengths.
+<!-- Example code for creating a codeblock with setup and hint: 
+```{r ex4_-setup} 
+#Setup
+```
+```{r ex4_, exercise=TRUE}
+#Write your code here
+```
+```{r ex4_-hint}
+#Hint
+```
+-->
+
+<!-- Example code for creating a quiz (multiple questions can be added in a quiz):
+```{r quiz4_}
+question("QUESTION",
+  answer("ANSWER1"),
+  answer("ANSWER2"),
+  answer("ANSWER3", correct = TRUE),
+  answer("ANSWER4"),
+  allow_retry = TRUE
+)
+```
+-->
+## Exercises
+In this chapter you can try out some more challenging exercises, where you have to apply what you have learned so far. If you are struggling with an exercise, you can review the lessons to refresh your memory. Alternatively, you can use the ? function to look up how functions work. Finally, there is an option to ask for a hint for every exercise.
+
+#### **Exercise 1**
+In the code block below, the vector `num_vect` is defined. Create a vector `tf` that gets the result `TRUE` for every number in `num_vect` that is either negative, larger than 10 or exactly 20. For all other numbers it gets the result `FALSE`.
+```{r ex5_1, exercise=TRUE, exercise.lines = 10}
+num_vect <- c(-17, 19, 6, -7, 3, 15, -19, -11, -16, 2, 8, 0, 10, 5 )
+#Write your code here:
+
+```
+```{r ex5_1-hint}
+#For this exercise, you are asked to check three different conditions: 
+#A number has to be negative, larger than 10 or exactly 20.
+#If you find this difficult, it is a good idea to split up the exercise in three components.
+#Test each conditional individually to see if it works correctly, 
+#  and finally join all three conditionals together!
+
+#tf should contain the following:
+[1] TRUE TRUE FALSE TRUE FALSE TRUE TRUE TRUE TRUE FALSE FALSE FALSE FALSE FALSE
+```
+
+**Exercise 2**
+In the code block below, the vectors `char_vect1`, `char_vect2.1` and `char_vect2.2` are defined. These three vectors together contain one big sentence, where `char_vect2.1` and `char_vect2.2` are scrambled. Try to unscramble `char_vect2.1` and `char_vect2.2`, and store the entire sentence in `char_vect`. Finally, join `char_vect` as a complete sentence *(so not as a vector!)*
+```{r ex5_2, exercise=TRUE, exercise.lines = 10}
+char_vect1 <- c("This", "is", "a", "short", "subsentence,")
+char_vect2 <- c("while", "subsentence", "a", "longer", "slightly")
+char_vect3 <- c("this", "is", "bit", "but", "scrambled.")
+#Write your code here:
+```
+```{r ex5_2-hint}
+#Try to break this exercise down into multiple steps.
+#First, unscramble char_vect2.1 and char_vect2.2 using the paste() function.
+#Second, join char_vect1 and the unscrambled char_vect2 using c()
+#Finally collapse the vector to print a single sentence, using the paste() function.
+
+#The correct output is:
+[1] "This is a short subsentence, while this subsentence is a bit longer but slightly scrambled."
+```
+**Exercise 3**
+In the code block below, the vector `num_vect` is given. Create a new vector `num_vect2` that contains each element of `num_vect` 10 times in an ordered fashion. Next, create a vector `num_vect3` that copies `num_vect2`, but adds 1 to the first element, 2 to the second element, ... and 30 to the 30th element. Finally, create a vector `tf` that checks which values in `num_vect3` are higher than 12 and lower than 19.
+
+In the bottom of the hint window you can check if you got the correct values for tf.
+
+*There are many ways to solve this exercise, but for this exercise try to use the functions described in the previous lessons to keep your code clear and understandable.*
+```{r ex5_3, exercise=TRUE, exercise.lines = 10}
+num_vect <- seq(1,3)
+#Write your code here:
+
+```
+```{r ex5_3-hint}
+#Try not to get overwhelmed by the multiple steps in the exercise, instead tackle them one by one.
+
+#If you struggle with num_vect2, 
+#  you should take another look at the rep() function in "Sequence of Numbers".
+
+#For num_vect3, you can try to use the seq_along() function
+
+#Finally, if you struggle with the tf vector, 
+#  you can take another look at the chapter Vectors - Logical Vectors.
+
+#This is what tf should look like:
+[1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE
+[12]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+[23] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+```
+
+## Personal Notes 
+You can use this chapter as your own personal notebook. You can use this space to experiment with pieces of code, to write down questions that you want to ask during the lectures, or you can make note of sections in the lessons that you find particularly useful.
+
+```{r ex6_1, exercise=TRUE, exercise.lines = 50}
+#Write notes in here:
+```
