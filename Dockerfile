@@ -1,4 +1,12 @@
 FROM rocker/binder:latest
+FROM ru1ma/rstudio:new
+
+# 安装Python3
+RUN apt-get update && \
+    apt-get install -y python3
+
+# 其他配置...
+
 
 
 
