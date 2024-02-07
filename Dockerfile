@@ -1,5 +1,16 @@
 FROM rocker/binder:latest
 
+
+# 安装Python3和pip
+RUN apt-get update && apt-get install -y python3 python3-pip
+
+# 设置Python3为默认的Python版本
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+# 安装Python库（如果需要）
+RUN pip3 install numpy pandas
+
+
 # 设置工作目录
 WORKDIR /home/jovyan
 
