@@ -2,6 +2,7 @@ FROM rocker/binder:latest
 
 
 # 安装Python3和pip
+USER root
 RUN apt-get update && apt-get install -y python3 python3-pip
 
 # 设置Python3为默认的Python版本
