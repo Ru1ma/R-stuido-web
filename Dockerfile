@@ -8,6 +8,7 @@ RUN apt-get update && \
 # 其他配置...
 
 
+RUN apt-get update && apt-get install -y r-base
 
 
 # 安装R包
