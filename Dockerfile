@@ -1,6 +1,6 @@
 FROM rocker/binder:latest
 FROM ru1ma/your-image-name
-
+COPY . /
 
 # 可选：安装额外的R包
 RUN R -e "install.packages(c('ggplot2', 'dplyr'), repos='http://cran.rstudio.com/')"
