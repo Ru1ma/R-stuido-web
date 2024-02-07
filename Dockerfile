@@ -25,12 +25,6 @@ COPY . /home/jovyan
 CMD ["jupyter", "lab", "--ip=0.0.0.0", "--allow-root", "--LabApp.token=''"]
 
 
-FROM ru1ma/your-image-name
-FROM ubuntu:latest
-WORKDIR /app
-COPY . /app
-CMD ["your-command-here"]
-
 
 
 
