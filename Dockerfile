@@ -9,7 +9,8 @@ RUN apt-get update && \
 
 
 RUN apt-get update && apt-get install -y r-base
-
+# 可选：安装JupyterLab（如果你的基础镜像没有包含）
+RUN pip install jupyterlab
 
 # 安装R包
 RUN R -e "install.packages(c('ggplot2', 'dplyr'), repos='http://cran.rstudio.com/')"
@@ -26,6 +27,11 @@ FROM ubuntu:latest
 WORKDIR /app
 COPY . /app
 CMD ["your-command-here"]
+
+FROM rocker/binder:latest
+
+
+
 
 
 
